@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="centro">
+        <h1>
+            SOCCER
+        </h1>
+    </div>
+
+    <section class="articles">
+        <!-- Artículos existentes ... -->
+
+        <article>
+            <div class="article-wrapper">
+                <figure>
+                    <img src="/img/messi.png" alt="" style="width: 100%;" />
+                </figure>
+                <div class="article-body">
+                    <h2>Ingresa al jugador</h2>
+                    <p>
+                        Agrega al nuevo jugador de Futbol
+                    </p>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#agregarModal">
+                        Agregar
+                    </button>
+                </div>
+            </div>
+        </article>
+
+        <article>
+            <div class="article-wrapper">
+                <figure>
+                    <img src="/img/beckham.png" alt="" style="width: 100%;" />
+                </figure>
+                <div class="article-body">
+                    <h2>Actualiza al jugador</h2>
+                    <p>
+                        Actualiza al jugador de Futbol
+                    </p>
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#actualizarModal">
+                        Actualizar
+                    </button>
+                </div>
+            </div>
+        </article>
+
+        <article>
+            <div class="article-wrapper">
+                <figure>
+                    <img src="/img/edson.png" alt="" style="width: 100%;" />
+                </figure>
+                <div class="article-body">
+                    <h2>Elimina al jugador</h2>
+                    <p>
+                        Elimina al jugador de Futbol
+                    </p>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#eliminarModal">
+                        Eliminar
+                    </button>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <!-- Modal de Bootstrap para agregar jugador -->
+    <div class="modal fade" id="agregarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Agregar Jugador</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Formulario de Bootstrap para agregar -->
+                    <form>
+                        <div class="form-group">
+                            <label for="nombre">Nombre:</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="equipo">Equipo:</label>
+                            <input type="text" class="form-control" id="equipo" name="equipo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nacionalidad">Nacionalidad:</label>
+                            <input type="text" class="form-control" id="nacionalidad" name="nacionalidad" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Bootstrap para actualizar jugador -->
+    <div class="modal fade" id="actualizarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Actualizar Jugador</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Formulario de Bootstrap para actualizar -->
+                    <form>
+                        <div class="form-group">
+                            <label for="nombreActualizar">Nombre:</label>
+                            <input type="text" class="form-control" id="nombreActualizar" name="nombreActualizar" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="equipoActualizar">Equipo:</label>
+                            <input type="text" class="form-control" id="equipoActualizar" name="equipoActualizar" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nacionalidadActualizar">Nacionalidad:</label>
+                            <input type="text" class="form-control" id="nacionalidadActualizar" name="nacionalidadActualizar" required>
+                        </div>
+                        <button type="submit" class="btn btn-warning">Actualizar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Bootstrap para eliminar jugador -->
+    <div class="modal fade" id="eliminarModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Eliminar Jugador</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Contenido del modal para eliminar -->
+                    <p>¿Estás seguro de que deseas eliminar a este jugador?</p>
+                    <button type="button" class="btn btn-danger">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts de Bootstrap y jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

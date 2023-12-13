@@ -1,0 +1,22 @@
+-- Crear una base de datos llamada "liga_futbol"
+CREATE DATABASE IF NOT EXISTS liga_futbol;
+
+-- Seleccionar la base de datos recién creada
+USE liga_futbol;
+
+-- Crear una tabla llamada "jugadores" para almacenar la información de los jugadores
+CREATE TABLE IF NOT EXISTS jugadores (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    equipo VARCHAR(50) NOT NULL,
+    nacionalidad VARCHAR(50) NOT NULL
+);
+
+-- Insertar algunos datos de ejemplo
+INSERT INTO jugadores (nombre, equipo, nacionalidad) VALUES
+    ('Lionel Messi', 'Paris Saint-Germain', 'Argentina'),
+    ('Cristiano Ronaldo', 'Manchester United', 'Portugal'),
+    ('Neymar Jr.', 'Paris Saint-Germain', 'Brasil');
+
+-- Consultar todos los jugadores en la tabla
+SELECT * FROM jugadores;
