@@ -15,9 +15,9 @@
     </div>
 
     <section class="articles">
-        <!-- Artículos existentes ... -->
+        <!-- Existing Articles -->
 
-        <article>
+        <article data-id="1">
             <div class="article-wrapper">
                 <figure>
                     <img src="/img/messi.png" alt="" style="width: 100%;" />
@@ -34,7 +34,7 @@
             </div>
         </article>
 
-        <article>
+        <article data-id="2">
             <div class="article-wrapper">
                 <figure>
                     <img src="/img/beckham.png" alt="" style="width: 100%;" />
@@ -51,7 +51,7 @@
             </div>
         </article>
 
-        <article>
+        <article data-id="3">
             <div class="article-wrapper">
                 <figure>
                     <img src="/img/edson.png" alt="" style="width: 100%;" />
@@ -80,7 +80,6 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <!-- Formulario de Bootstrap para agregar -->
                     <form>
                         <div class="form-group">
                             <label for="nombre">Nombre:</label>
@@ -112,7 +111,6 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <!-- Formulario de Bootstrap para actualizar -->
                     <form>
                         <div class="form-group">
                             <label for="nombreActualizar">Nombre:</label>
@@ -144,7 +142,6 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <!-- Contenido del modal para eliminar -->
                     <p>¿Estás seguro de que deseas eliminar a este jugador?</p>
                     <button type="button" class="btn btn-danger">Eliminar</button>
                 </div>
@@ -152,9 +149,193 @@
         </div>
     </div>
 
+    <!-- Agrega esta tabla justo después de la sección de artículos -->
+    <section class="actions">
+        <h2>Acciones Realizadas</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Acción</th>
+                    <th>Jugador</th>
+                    <th>Equipo</th>
+                    <th>Nacionalidad</th>
+                </tr>
+            </thead>
+            <tbody id="actionsTableBody">
+                <!-- Aquí se agregarán las filas dinámicamente -->
+            </tbody>
+        </table>
+    </section>
+
     <!-- Scripts de Bootstrap y jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+
+
+
+
+    <!-- CRUD operations with Fetch API -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetchPlayers();
+
+            document.querySelector('#agregarModal form').addEventListener('submit', function (event) {
+                event.preventDefault();
+                addPlayer();
+            });
+
+            document.querySelector('#actualizarModal form').addEventListener('submit', function (event) {
+                event.preventDefault();
+                updatePlayer();
+            });
+
+            document.querySelector('#eliminarModal button.btn-danger').addEventListener('click', function () {
+                deletePlayer();
+            });
+        });
+
+        function fetchPlayers() {
+            fetch('/api/players') // Replace with your API endpoint
+                .then(response => response.json())
+                .then(players => renderPlayers(players))
+                .catch(error => console.error('Error fetching players:', error));
+        }
+
+        function renderPlayers(players) {
+            const articles = document.querySelectorAll('.articles article');
+            const actionsTableBody = document.getElementById('actionsTableBody');
+
+            players.forEach(player => {
+                const article = Array.from(articles).find(article => parseInt(article.dataset.id) === player.id);
+                if (article) {
+                    article.querySelector('h2').textContent = player.name;
+                    article.querySelector('p').textContent = player.description;
+                } else {
+                    const newArticle = document.createElement('article');
+                    newArticle.dataset.id = player.id;
+                    newArticle.innerHTML = `<div class="article-wrapper">
+                            <figure>
+                                <img src="${player.image}" alt="" style="width: 100%;" />
+                            </figure>
+                            <div class="article-body">
+                                <h2>${player.name}</h2>
+                                <p>${player.description}</p>
+                                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#actualizarModal">
+                                    Actualizar
+                                </button>
+                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#eliminarModal">
+                                    Eliminar
+                                </button>
+                            </div>
+                        </div>`;
+                    document.querySelector('.articles').appendChild(newArticle);
+                }
+
+                // Añade la acción a la tabla
+                const newRow = actionsTableBody.insertRow();
+                const actionCell = newRow.insertCell(0);
+                const nameCell = newRow.insertCell(1);
+                const teamCell = newRow.insertCell(2);
+                const nationalityCell = newRow.insertCell(3);
+
+                actionCell.textContent = 'Agregado';
+                nameCell.textContent = player.name;
+                teamCell.textContent = player.team;
+                nationalityCell.textContent = player.nationality;
+            });
+        }
+
+        function addPlayer() {
+            const nombre = document.getElementById('nombre').value;
+            const equipo = document.getElementById('equipo').value;
+            const nacionalidad = document.getElementById('nacionalidad').value;
+
+
+            alert("Esta Entrando en la funcion");
+            fetch('/api/players', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: nombre,
+                    team: equipo,
+                    nationality: nacionalidad,
+                }),
+            })
+                .then(response => response.json())
+                .then(newPlayer => {
+                    document.getElementById('nombre').value = '';
+                    document.getElementById('equipo').value = '';
+                    document.getElementById('nacionalidad').value = '';
+
+                    $('#agregarModal').modal('hide');
+                    fetchPlayers();
+                })
+                .catch(error => console.error('Error adding player:', error));
+        }
+
+        function updatePlayer() {
+            const playerId = ""; // No estás obteniendo el ID del jugador
+            if (!playerId) {
+                console.error('Player ID not found');
+                return;
+            }
+
+            const nombreActualizar = document.getElementById('nombreActualizar').value;
+            const equipoActualizar = document.getElementById('equipoActualizar').value;
+            const nacionalidadActualizar = document.getElementById('nacionalidadActualizar').value;
+
+            fetch(`/api/players/${playerId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: nombreActualizar,
+                    team: equipoActualizar,
+                    nationality: nacionalidadActualizar,
+                }),
+            })
+                .then(response => {
+                    if (response.ok) {
+                        document.getElementById('nombreActualizar').value = '';
+                        document.getElementById('equipoActualizar').value = '';
+                        document.getElementById('nacionalidadActualizar').value = '';
+
+                        $('#actualizarModal').modal('hide');
+                        fetchPlayers();
+                    } else {
+                        console.error('Error updating player:', response.statusText);
+                    }
+                })
+                .catch(error => console.error('Error updating player:', error));
+        }
+
+        function deletePlayer() {
+            const playerId = ""; // No estás obteniendo el ID del jugador
+            if (!playerId) {
+                console.error('Player ID not found');
+                return;
+            }
+
+            fetch(`/api/players/${playerId}`, {
+                method: 'DELETE',
+            })
+                .then(response => {
+                    if (response.ok) {
+                        $('#eliminarModal').modal('hide');
+                        fetchPlayers();
+                    } else {
+                        console.error('Error deleting player:', response.statusText);
+                    }
+                })
+                .catch(error => console.error('Error deleting player:', error));
+        }
+    </script>
 </body>
 </html>

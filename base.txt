@@ -1,22 +1,19 @@
--- Crear una base de datos llamada "liga_futbol"
-CREATE DATABASE IF NOT EXISTS liga_futbol;
+const mysql = require('mysql2');
+const connection = mysql.createConnection({
+  port:'3306',
+  host: '127.0.0.1',
+  user: 'root',
+  password: 'root',
+  database: 'liga_futbol',
+});
 
--- Seleccionar la base de datos recién creada
-USE liga_futbol;
+connection.connect(function(err) {
+  if (err) {
+    console.error(err);
+    return;
+  }
 
--- Crear una tabla llamada "jugadores" para almacenar la información de los jugadores
-CREATE TABLE IF NOT EXISTS jugadores (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(50) NOT NULL,
-    equipo VARCHAR(50) NOT NULL,
-    nacionalidad VARCHAR(50) NOT NULL
-);
+  console.log('Conectado a la base de datos');
+});
 
--- Insertar algunos datos de ejemplo
-INSERT INTO jugadores (nombre, equipo, nacionalidad) VALUES
-    ('Lionel Messi', 'Paris Saint-Germain', 'Argentina'),
-    ('Cristiano Ronaldo', 'Manchester United', 'Portugal'),
-    ('Neymar Jr.', 'Paris Saint-Germain', 'Brasil');
-
--- Consultar todos los jugadores en la tabla
-SELECT * FROM jugadores;
+module.exports=connection;
